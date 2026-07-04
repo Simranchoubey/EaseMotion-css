@@ -1,0 +1,530 @@
+/* ============================================================
+   Interactive HTML Code Generator — Playground UI
+   Documentation-style layout; EaseMotion classes live in preview.
+   ============================================================ */
+
+:root {
+  --pg-bg: #f4f6fb;
+  --pg-surface: #ffffff;
+  --pg-border: #e2e8f0;
+  --pg-text: #0f172a;
+  --pg-muted: #64748b;
+  --pg-primary: #6c63ff;
+  --pg-primary-dark: #4b44cc;
+  --pg-primary-soft: rgba(108, 99, 255, 0.1);
+  --pg-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+  --pg-shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.1);
+  --pg-radius: 1rem;
+  --pg-radius-sm: 0.625rem;
+  --pg-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --pg-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --pg-focus: 0 0 0 3px rgba(108, 99, 255, 0.35);
+  --pg-header-h: 0px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--pg-font);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--pg-text);
+  background:
+    radial-gradient(circle at top left, rgba(108, 99, 255, 0.08), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.06), transparent 35%),
+    var(--pg-bg);
+}
+
+/* ── Skip link ─────────────────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  border-radius: var(--pg-radius-sm);
+  background: var(--pg-primary);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  outline: none;
+  box-shadow: var(--pg-focus);
+}
+
+/* ── Header / Footer ───────────────────────────────────────── */
+
+.site-header {
+  padding: 2.5rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+.site-header__inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.site-header__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pg-primary);
+}
+
+.site-header__title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.site-header__subtitle {
+  margin: 0.75rem 0 0;
+  color: var(--pg-muted);
+  font-size: 1.0625rem;
+}
+
+.site-footer {
+  padding: 2rem 1.5rem 3rem;
+  text-align: center;
+  color: var(--pg-muted);
+  font-size: 0.9375rem;
+}
+
+.site-footer a {
+  color: var(--pg-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.site-footer a:focus-visible {
+  outline: 2px solid var(--pg-primary);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Playground grid ───────────────────────────────────────── */
+
+.playground {
+  display: grid;
+  gap: 1.25rem;
+  width: min(1400px, calc(100% - 2rem));
+  margin: 0 auto 2rem;
+  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.panel {
+  background: var(--pg-surface);
+  border: 1px solid var(--pg-border);
+  border-radius: var(--pg-radius);
+  box-shadow: var(--pg-shadow);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.panel:hover {
+  box-shadow: var(--pg-shadow-lg);
+}
+
+.panel__header {
+  padding: 1.25rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--pg-border);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), transparent);
+}
+
+.panel__header h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+.panel__header p {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: var(--pg-muted);
+}
+
+/* Sticky controls on desktop */
+.panel--controls {
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+}
+
+/* ── Controls form ─────────────────────────────────────────── */
+
+.controls-form {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.control-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.control-group legend {
+  padding: 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pg-muted);
+}
+
+.control-group.is-hidden {
+  display: none;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+
+.control:last-child {
+  margin-bottom: 0;
+}
+
+.control label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.control select {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--pg-border);
+  border-radius: var(--pg-radius-sm);
+  background: #fff;
+  color: var(--pg-text);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.control select:hover {
+  border-color: #cbd5e1;
+}
+
+.control select:focus-visible {
+  outline: none;
+  border-color: var(--pg-primary);
+  box-shadow: var(--pg-focus);
+}
+
+.radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.radio-pill {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.radio-pill input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-pill span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--pg-border);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: #fff;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.radio-pill input:focus-visible + span {
+  box-shadow: var(--pg-focus);
+}
+
+.radio-pill input:checked + span {
+  background: var(--pg-primary-soft);
+  border-color: var(--pg-primary);
+  color: var(--pg-primary-dark);
+}
+
+.control-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.control-row--checkboxes {
+  padding-top: 0.25rem;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--pg-primary);
+  cursor: pointer;
+}
+
+.checkbox-label input:focus-visible {
+  outline: 2px solid var(--pg-primary);
+  outline-offset: 2px;
+}
+
+.control-actions {
+  padding-top: 0.25rem;
+}
+
+/* ── Action buttons (playground chrome) ──────────────────── */
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 2.5rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--pg-radius-sm);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.action-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--pg-focus);
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+.action-btn--primary {
+  background: var(--pg-primary);
+  color: #fff;
+}
+
+.action-btn--primary:hover {
+  background: var(--pg-primary-dark);
+}
+
+.action-btn--secondary {
+  background: #fff;
+  color: var(--pg-text);
+  border-color: var(--pg-border);
+}
+
+.action-btn--secondary:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.action-btn--ghost {
+  width: 100%;
+  background: transparent;
+  color: var(--pg-muted);
+  border-color: var(--pg-border);
+}
+
+.action-btn--ghost:hover {
+  color: var(--pg-text);
+  background: #f8fafc;
+}
+
+/* ── Preview panel ─────────────────────────────────────────── */
+
+.preview-stage {
+  min-height: 280px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.65), rgba(241, 245, 249, 0.35)),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(148, 163, 184, 0.04) 0,
+      rgba(148, 163, 184, 0.04) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+}
+
+.preview-root {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-root .ease-card {
+  width: 100%;
+}
+
+.preview-card-shell {
+  width: 100%;
+}
+
+.preview-card-shell h3 {
+  margin: 0 0 0.5rem;
+}
+
+.preview-card-shell p {
+  margin: 0;
+  color: var(--pg-muted, #64748b);
+}
+
+/* ── Code panel ────────────────────────────────────────────── */
+
+.code-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  padding: 0 1.25rem 1rem;
+}
+
+.code-block-wrap {
+  padding: 0 1.25rem 1.25rem;
+}
+
+.code-block {
+  margin: 0;
+  padding: 1rem 1.125rem;
+  overflow: auto;
+  max-height: min(420px, 50vh);
+  border-radius: var(--pg-radius-sm);
+  border: 1px solid #1e293b;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: var(--pg-mono);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.code-block:focus-visible {
+  outline: none;
+  box-shadow: var(--pg-focus);
+}
+
+.code-block code {
+  font-family: inherit;
+}
+
+/* ── Tablet layout ─────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .playground {
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  }
+
+  .panel--controls {
+    position: static;
+    max-height: none;
+  }
+
+  .panel--preview,
+  .panel--code {
+    grid-column: 2;
+  }
+}
+
+/* ── Mobile layout ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .site-header {
+    padding-top: 1.75rem;
+  }
+
+  .playground {
+    width: min(100%, calc(100% - 1.25rem));
+    grid-template-columns: 1fr;
+  }
+
+  .panel--preview,
+  .panel--code {
+    grid-column: auto;
+  }
+
+  .preview-stage {
+    min-height: 220px;
+    padding: 1.5rem 1rem;
+  }
+
+  .code-block {
+    max-height: none;
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

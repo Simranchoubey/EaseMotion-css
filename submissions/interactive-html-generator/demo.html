@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interactive HTML code generator for EaseMotion CSS Button and Card components."
+    />
+    <title>Interactive HTML Code Generator — EaseMotion CSS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../easemotion.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <p class="site-header__eyebrow">EaseMotion CSS · GSSoC #35327</p>
+        <h1 class="site-header__title">Interactive HTML Code Generator</h1>
+        <p class="site-header__subtitle">
+          Configure components visually and instantly copy production-ready HTML.
+        </p>
+      </div>
+    </header>
+
+    <main id="main-content" class="playground">
+      <!-- LEFT: Configuration -->
+      <aside class="panel panel--controls" aria-labelledby="controls-heading">
+        <div class="panel__header">
+          <h2 id="controls-heading">Configuration</h2>
+          <p>Adjust options to update the live preview and generated markup.</p>
+        </div>
+
+        <form id="config-form" class="controls-form" novalidate>
+          <fieldset class="control-group">
+            <legend>Component</legend>
+            <div class="radio-row" role="radiogroup" aria-label="Component type">
+              <label class="radio-pill">
+                <input type="radio" name="component" value="button" checked />
+                <span>Button</span>
+              </label>
+              <label class="radio-pill">
+                <input type="radio" name="component" value="card" />
+                <span>Card</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="control-group" id="button-options">
+            <legend>Button options</legend>
+
+            <div class="control">
+              <label for="variant">Variant</label>
+              <select id="variant" name="variant">
+                <option value="primary">Primary</option>
+                <option value="secondary">Secondary</option>
+                <option value="outline">Outline</option>
+                <option value="ghost">Ghost</option>
+              </select>
+            </div>
+
+            <div class="control">
+              <label for="size">Size</label>
+              <select id="size" name="size">
+                <option value="sm">Small</option>
+                <option value="md" selected>Medium</option>
+                <option value="lg">Large</option>
+              </select>
+            </div>
+
+            <div class="control-row control-row--checkboxes">
+              <label class="checkbox-label">
+                <input type="checkbox" id="loading" name="loading" />
+                <span>Loading</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="disabled" name="disabled" />
+                <span>Disabled</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="control-group">
+            <legend>Motion</legend>
+
+            <div class="control">
+              <label for="hover">Hover animation</label>
+              <select id="hover" name="hover">
+                <option value="none">None</option>
+                <option value="lift">Lift</option>
+                <option value="scale">Scale</option>
+                <option value="glow">Glow</option>
+                <option value="rotate">Rotate</option>
+              </select>
+            </div>
+
+            <div class="control">
+              <label for="animation">Entrance animation</label>
+              <select id="animation" name="animation">
+                <option value="none">None</option>
+                <option value="fade-in">Fade In</option>
+                <option value="slide-up">Slide Up</option>
+                <option value="zoom-in">Zoom In</option>
+              </select>
+            </div>
+
+            <div class="control">
+              <label for="delay">Delay</label>
+              <select id="delay" name="delay">
+                <option value="none">None</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="300">300</option>
+                <option value="500">500</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <div class="control-actions">
+            <button type="button" id="reset-btn" class="action-btn action-btn--ghost">
+              Reset
+            </button>
+          </div>
+        </form>
+      </aside>
+
+      <!-- CENTER: Live Preview -->
+      <section class="panel panel--preview" aria-labelledby="preview-heading">
+        <div class="panel__header">
+          <h2 id="preview-heading">Live Preview</h2>
+          <p>Updates instantly as you change configuration options.</p>
+        </div>
+
+        <div
+          id="preview-stage"
+          class="preview-stage"
+          role="region"
+          aria-live="polite"
+          aria-label="Component preview"
+        >
+          <div id="preview-root" class="preview-root"></div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Generated HTML -->
+      <section class="panel panel--code" aria-labelledby="code-heading">
+        <div class="panel__header">
+          <h2 id="code-heading">Generated HTML</h2>
+          <p>Copy or download the markup below.</p>
+        </div>
+
+        <div class="code-toolbar">
+          <button
+            type="button"
+            id="copy-btn"
+            class="action-btn action-btn--primary"
+            aria-label="Copy generated HTML to clipboard"
+          >
+            Copy HTML
+          </button>
+          <button
+            type="button"
+            id="download-btn"
+            class="action-btn action-btn--secondary"
+            aria-label="Download generated HTML as component.html"
+          >
+            Download
+          </button>
+        </div>
+
+        <div class="code-block-wrap">
+          <pre class="code-block" tabindex="0" aria-label="Generated HTML code"><code id="code-output"></code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        Built with vanilla HTML, CSS, and JavaScript for
+        <a href="https://github.com/SAPTARSHI-coder/EaseMotion-css">EaseMotion CSS</a>.
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
